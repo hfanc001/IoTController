@@ -14,10 +14,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         //Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String switch_name = intent.getStringExtra(MainActivity.SWITCH_NAME);
+        String switch_location = intent.getStringExtra(MainActivity.SWITCH_LOCATION);
 
         //Capture the layout's TextvView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(message);
+        TextView view_name = (TextView) findViewById(R.id.display_name);
+        view_name.setText(switch_name);
+        TextView view_location = (TextView) findViewById(R.id.display_location);
+        view_location.setText(switch_location);
     }
 }
