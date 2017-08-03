@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edustanprojectdrupalqvsclab_home.ucr.ece.httpwww.iotcontroller.DisplayMessageActivity">
+    tools:context="edustanprojectdrupalqvsclab_home.ucr.ece.httpwww.iotcontroller.DisplayControllerActivity">
 
     <TextView
         android:id="@+id/display_name"

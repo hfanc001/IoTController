@@ -3,4 +3,9 @@
     <string name="enter_name">Name</string>
     <string name="enter_location">Location</string>
     <string name="button_send">Enter</string>
+    <string name="title_activity_add_new_controller">Add New Controller</string>
+    <string name="title_display_message">Your Controller</string>
+
+    <!--Example -->
+
 </resources>
