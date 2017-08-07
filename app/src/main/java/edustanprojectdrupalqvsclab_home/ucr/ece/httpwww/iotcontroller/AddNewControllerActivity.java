@@ -16,6 +16,7 @@ public class AddNewControllerActivity extends AppCompatActivity {
     public static final String SWITCH_NAME = "edustanprojectdrupalqvsclab_home.ucr.ece.httpwww.iotcontroller.NAME";
     public static final String SWITCH_LOCATION = "edustanprojectdrupalqvsclab_home.ucr.ece.httpwww.iotcontroller.LOCATION";
     public static boolean SWITCH_STATUS;
+    public static int SWITCH_ROW;
 
 
     @Override
@@ -46,7 +47,7 @@ public class AddNewControllerActivity extends AppCompatActivity {
         values.put("clocation", location);
         values.put("cstatus", SWITCH_STATUS);
 
-        MainActivity.helper.addController(new Controller(name, location, SWITCH_STATUS, null));
+        SWITCH_ROW = MainActivity.helper.addController(new Controller(name, location, SWITCH_STATUS));
     }
 }
 

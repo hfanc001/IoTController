@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.List;
+
+import edustanprojectdrupalqvsclab_home.ucr.ece.httpwww.iotcontroller.Database.Controller;
+
 public class DisplayControllerActivity extends AppCompatActivity {
 
    //private ToggleButton toggleButton;
@@ -29,6 +33,9 @@ public class DisplayControllerActivity extends AppCompatActivity {
         ToggleButton toggle = (ToggleButton) findViewById(R.id.display_status);
         toggle.setChecked(AddNewControllerActivity.SWITCH_STATUS);
 
+        //List<Controller> list = MainActivity.helper.getAllControllers();
+       // Controller test = MainActivity.helper.getController(0);
+        int row = AddNewControllerActivity.SWITCH_ROW;
         AddNewControllerActivity.SWITCH_STATUS = toggle.isChecked();
     }
 

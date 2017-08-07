@@ -30,11 +30,9 @@ public class MyDBHelper extends SQLiteOpenHelper {
         // SQL statement to create controller table
         String CREATE_CONTROLLER_TABLE =
                 "CREATE TABLE controllers ( " +
-                        "cid INTEGER PRIMARY KEY NOT NULL, " +
-                        "cname STRING, " +
-                        "clocation STRING, " +
-                        "cstatus BOOLEAN NOT NULL, " +
-                        "ctype STRING)";
+                        "name STRING NOT NULL, " +
+                        "location STRING, " +
+                        "status BOOLEAN NOT NULL)";
 
         // create controller table
         db.execSQL(CREATE_CONTROLLER_TABLE);
@@ -58,16 +56,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String TABLE_CONTROLLERS = "controllers";
 
     // Controllers Table Columns names
-    private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_LOCATION = "location";
     private static final String KEY_STATUS = "status";
-    private static final String KEY_TYPE = "type";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_LOCATION};
+    private static final String[] COLUMNS = {KEY_NAME,KEY_LOCATION, KEY_STATUS};
 
-    public void addController(Controller controller){
-        Log.d("addController", controller.toString());
+    public int addController(Controller controller){
+        //Log.d("addController", controller.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -76,18 +72,18 @@ public class MyDBHelper extends SQLiteOpenHelper {
         values.put(KEY_NAME, controller.getName()); // get name
         values.put(KEY_LOCATION, controller.getLocation()); // get location
         values.put(KEY_STATUS, controller.getStatus()); //get status
-        values.put(KEY_TYPE, controller.getType()); //get type
 
         // 3. insert
-        db.insert(TABLE_CONTROLLERS, // table
+        long rowNum = db.insertOrThrow(TABLE_CONTROLLERS, // table
                 null, //nullColumnHack
                 values); // key/value -> keys = column names/ values = column values
 
         // 4. close
         db.close();
+        return (int)rowNum;
     }
 
-    public Controller getController(int id){
+    public Controller getController(String name){
 
         // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
@@ -97,7 +93,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 db.query(TABLE_CONTROLLERS, // a. table
                         COLUMNS, // b. column names
                         " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
+                        new String[] { String.valueOf(name) }, // d. selections args
                         null, // e. group by
                         null, // f. having
                         null, // g. order by
@@ -109,11 +105,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // 4. build controller object
         Controller controller = new Controller();
-        controller.setId(Integer.parseInt(cursor.getString(0)));
         controller.setName(cursor.getString(1));
         controller.setLocation(cursor.getString(2));
 
-        Log.d("getController("+id+")", controller.toString());
+        Log.d("getController("+name+")", controller.toString());
 
         // 5. return controller
         return controller;
@@ -135,7 +130,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 controller = new Controller();
-                controller.setId(Integer.parseInt(cursor.getString(0)));
                 controller.setName(cursor.getString(1));
                 controller.setLocation(cursor.getString(2));
 
@@ -164,8 +158,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
         // 3. updating row
         int i = db.update(TABLE_CONTROLLERS, //table
                 values, // column/value
-                KEY_ID+" = ?", // selections
-                new String[] { String.valueOf(controller.getId()) }); //selection args
+                KEY_NAME+" = ?", // selections
+                new String[] { String.valueOf(controller.getName()) }); //selection args
 
         // 4. close
         db.close();
@@ -182,8 +176,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // 2. delete
         db.delete(TABLE_CONTROLLERS,
-                KEY_ID+" = ?",
-                new String[] { String.valueOf(controller.getId()) });
+                KEY_NAME+" = ?",
+                new String[] { String.valueOf(controller.getName()) });
 
         // 3. close
         db.close();
