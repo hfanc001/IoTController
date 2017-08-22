@@ -10,6 +10,9 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 
 /**
  * Created by cindy on 7/13/2017.
@@ -32,7 +35,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE controllers ( " +
                         "name STRING NOT NULL, " +
                         "location STRING, " +
-                        "status BOOLEAN NOT NULL)";
+                        "status NUMERIC NOT NULL)";
 
         // create controller table
         db.execSQL(CREATE_CONTROLLER_TABLE);
@@ -83,21 +86,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return (int)rowNum;
     }
 
-    public Controller getController(String name){
+    public Controller getController(int id){
 
         // 1. get reference to readable DB
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. build query
-        Cursor cursor =
-                db.query(TABLE_CONTROLLERS, // a. table
-                        COLUMNS, // b. column names
-                        " id = ?", // c. selections
-                        new String[] { String.valueOf(name) }, // d. selections args
-                        null, // e. group by
-                        null, // f. having
-                        null, // g. order by
-                        null); // h. limit
+        String query = "SELECT  * FROM " + TABLE_CONTROLLERS + " WHERE ROWID = " + String.valueOf(id);
+        Cursor cursor = db.rawQuery(query, null);
 
         // 3. if we got results get the first one
         if (cursor != null)
@@ -105,10 +101,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // 4. build controller object
         Controller controller = new Controller();
-        controller.setName(cursor.getString(1));
-        controller.setLocation(cursor.getString(2));
-
-        Log.d("getController("+name+")", controller.toString());
+        controller.setName(cursor.getString(0));
+        controller.setLocation(cursor.getString(1));
+        String tmp = cursor.getString(2);
+        if("0".equals(tmp)) {
+            controller.setStatus(FALSE);
+        } else {
+            controller.setStatus(TRUE);
+        }
 
         // 5. return controller
         return controller;
@@ -130,8 +130,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 controller = new Controller();
-                controller.setName(cursor.getString(1));
-                controller.setLocation(cursor.getString(2));
+                controller.setName(cursor.getString(0));
+                controller.setLocation(cursor.getString(1));
+                String tmp = cursor.getString(2);
+                if("0".equals(tmp)) {
+                    controller.setStatus(FALSE);
+                } else {
+                    controller.setStatus(TRUE);
+                }
 
                 // Add controller to controllers
                 controllers.add(controller);

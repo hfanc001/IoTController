@@ -37,6 +37,16 @@ public class DisplayControllerActivity extends AppCompatActivity {
        // Controller test = MainActivity.helper.getController(0);
         int row = AddNewControllerActivity.SWITCH_ROW;
         AddNewControllerActivity.SWITCH_STATUS = toggle.isChecked();
+
+        //Set controller info from Database
+        Controller con = MainActivity.helper.getController(row);
+        TextView con_name = (TextView) findViewById(R.id.controller_name);
+        TextView con_location = (TextView) findViewById(R.id.controller_location);
+        ToggleButton con_status = (ToggleButton) findViewById(R.id.controller_status);
+        con_name.setText(con.getName());
+        con_location.setText(con.getLocation());
+        con_status.setChecked(con.getStatus());
+
     }
 
     public void onToggleClicked (View view) {

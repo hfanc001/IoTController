@@ -47,6 +47,7 @@ public class AddNewControllerActivity extends AppCompatActivity {
         values.put("clocation", location);
         values.put("cstatus", SWITCH_STATUS);
 
+        //TODO Make sure the inserting process is correct
         SWITCH_ROW = MainActivity.helper.addController(new Controller(name, location, SWITCH_STATUS));
     }
 }

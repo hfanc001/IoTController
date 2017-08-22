@@ -18,11 +18,12 @@
         <activity
             android:name=".AddNewControllerActivity"
             android:label="@string/title_activity_add_new_controller"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DisplayControllerActivity"
             android:label="@string/title_display_message"
-            android:parentActivityName=".AddNewControllerActivity"></activity>
+            android:parentActivityName=".AddNewControllerActivity" />
+        <activity android:name=".ControllerDisplayActivity"></activity>
     </application>
 
 </manifest>
